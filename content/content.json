@@ -1,104 +1,140 @@
 {
   "profile": {
-    "name": "Alex Example",
-    "headline": "I build reliable software.",
-    "bio": "I’m a software engineer who builds web applications and the services behind them. I care about clear interfaces, predictable systems, and making software easier for the next person to maintain.",
-    "location": "Portland, Oregon",
-    "email": "alex@example.com",
-    "availability": { "available": true, "text": "Open to new opportunities" },
+    "name": "Imane Rissouni",
+    "headline": "Backend engineer building intelligent, reliable software.",
+    "bio": "I'm a software engineer with a state engineering degree in Computer Engineering, specialised in backend development and AI-powered products. I design REST APIs and full-stack applications with FastAPI, ASP.NET Core, React, PostgreSQL, MongoDB and Docker.",
+    "location": "Morocco",
+    "email": "rissouniimane12@gmail.com",
+    "availability": {
+      "available": true,
+      "text": "Open to new opportunities"
+    },
     "links": {
-      "github": "https://example.com/github",
-      "linkedin": "https://example.com/linkedin",
-      "cv": "/alex-example-cv.txt"
+      "github": "https://github.com/IMANE-RISSOUNI",
+      "linkedin": "https://www.linkedin.com/in/IMANE-RISSOUNI",
+      "cv": "/Imane-Rissouni-CV.pdf"
     }
   },
   "projects": [
     {
-      "title": "Parcel Ledger",
-      "description": "A shipment dashboard that turns carrier webhooks into a searchable timeline for support teams.",
-      "stack": ["TypeScript", "Next.js", "PostgreSQL"],
-      "repoUrl": "https://example.com/parcel-ledger",
-      "demoUrl": "https://example.com/parcel-ledger-demo",
-      "year": 2025,
+      "title": "CLRK-Agent",
+      "description": "AI recruitment platform for analysing and managing job applications.",
+      "stack": ["React", "ASP.NET Core", "MongoDB"],
       "sortOrder": 1,
       "visible": true
     },
     {
-      "title": "Query Notebook",
-      "description": "A workspace for saving and comparing SQL query plans while tuning slow reports.",
-      "stack": ["Python", "SQLite", "React"],
-      "repoUrl": "https://example.com/query-notebook",
-      "year": 2024,
+      "title": "Task-Mate",
+      "description": "Task management application available on web and mobile.",
+      "stack": ["React", "React Native", "Spring Boot", "MySQL"],
       "sortOrder": 2,
       "visible": true
     },
     {
-      "title": "Release Relay",
-      "description": "A command-line tool that collects release notes from merged changes and renders a changelog.",
-      "stack": ["Go", "GitHub Actions"],
-      "repoUrl": "https://example.com/release-relay",
-      "year": 2023,
+      "title": "NexaOCP",
+      "description": "Intelligent HR assistant built during my internship at OCP Group: React front end, ASP.NET Core and FastAPI services, MongoDB, JWT authentication and Docker.",
+      "stack": ["React", "ASP.NET Core", "FastAPI", "MongoDB", "Docker"],
+      "year": 2025,
       "sortOrder": 3,
       "visible": true
     }
   ],
   "experiences": [
     {
-      "role": "Software Engineer",
-      "organization": "Example Harbor Labs",
+      "role": "Software Engineer Intern",
+      "organization": "Smart Maroc AI",
       "type": "work",
-      "startYear": 2023,
-      "endYear": null,
-      "description": "Builds internal logistics tools and maintains the event processing behind shipment notifications.",
-      "location": "Remote",
+      "startYear": 2026,
+      "endYear": 2026,
+      "description": "Built the backend of TaxiBot and Smart Digital with FastAPI, PostgreSQL and Supabase. Designed secure REST APIs with authentication, user management and real-time features. Worked in an Agile team using Git and Docker.",
+      "location": "Oujda, Morocco",
       "sortOrder": 1,
       "visible": true
     },
     {
-      "role": "Junior Software Engineer",
-      "organization": "Example Grove Software",
+      "role": "Software Engineer Intern",
+      "organization": "OCP Group",
       "type": "work",
-      "startYear": 2021,
-      "endYear": 2023,
-      "description": "Developed reporting features and moved recurring data imports into monitored background jobs.",
-      "location": "Portland, Oregon",
+      "startYear": 2025,
+      "endYear": 2025,
+      "description": "Contributed to NexaOCP, an intelligent HR assistant. Implemented backend features, JWT authentication and Docker containerisation as part of an Agile development cycle.",
+      "location": "Khouribga, Morocco",
       "sortOrder": 2,
       "visible": true
     },
     {
-      "role": "B.S. in Computer Science",
-      "organization": "Example State University",
-      "type": "education",
-      "startYear": 2017,
-      "endYear": 2021,
-      "description": "Studied distributed systems and built a scheduling app for a capstone project.",
-      "location": "Salem, Oregon",
+      "role": "Software Developer Intern",
+      "organization": "GM-Soft",
+      "type": "work",
+      "startYear": 2023,
+      "endYear": 2023,
+      "description": "Developed a school management system with Laravel, Angular and Bootstrap, and took part in the design and development of the web solution in an Agile environment.",
+      "location": "Beni Mellal, Morocco",
       "sortOrder": 3,
+      "visible": true
+    },
+    {
+      "role": "State Engineering Degree in Computer Engineering",
+      "organization": "ENIAD-B",
+      "type": "education",
+      "startYear": 2023,
+      "endYear": 2026,
+      "description": "Specialisation in software engineering, AI, DevOps and databases.",
+      "location": "Morocco",
+      "sortOrder": 4,
+      "visible": true
+    },
+    {
+      "role": "DUT in Computer Engineering",
+      "organization": "EST-BM",
+      "type": "education",
+      "startYear": 2021,
+      "endYear": 2023,
+      "description": "Final-year project: hotel management web application.",
+      "location": "Beni Mellal, Morocco",
+      "sortOrder": 5,
       "visible": true
     }
   ],
   "skills": [
     {
       "category": "Languages",
-      "items": ["TypeScript", "Python", "Go", "SQL"],
+      "items": ["Python", "C#", "Java", "PHP", "JavaScript", "TypeScript"],
       "sortOrder": 1,
       "visible": true
     },
     {
-      "category": "Frontend",
-      "items": ["React", "Next.js", "Tailwind CSS"],
+      "category": "Backend & Web",
+      "items": [
+        "ASP.NET Core",
+        "FastAPI",
+        "REST APIs",
+        "JWT",
+        "React",
+        "Angular",
+        "Tailwind CSS"
+      ],
       "sortOrder": 2,
       "visible": true
     },
     {
-      "category": "Backend & data",
-      "items": ["Node.js", "PostgreSQL", "Redis"],
+      "category": "Data & DevOps",
+      "items": [
+        "PostgreSQL",
+        "Supabase",
+        "MongoDB",
+        "MySQL",
+        "Docker",
+        "Git",
+        "CI/CD",
+        "Swagger"
+      ],
       "sortOrder": 3,
       "visible": true
     },
     {
-      "category": "Tooling",
-      "items": ["Git", "Docker", "GitHub Actions", "Playwright"],
+      "category": "Spoken languages",
+      "items": ["Arabic (native)", "French (fluent)", "English (fluent)"],
       "sortOrder": 4,
       "visible": true
     }

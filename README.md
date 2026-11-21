@@ -1,6 +1,6 @@
 # Software engineer portfolio
 
-A static Next.js portfolio generated from `content/content.json`. The included profile, work history, projects, links, and CV are fictional examples.
+A Next.js portfolio generated from `content/content.json`.
 
 ## Run locally
 
@@ -9,11 +9,11 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000. Edit `content/content.json` to update the portfolio. Replace the sample CV in `public/` and update `profile.links.cv` to point to your file.
+Open http://localhost:3000. Edit `content/content.json` to update the portfolio. The CV link, `profile.links.cv`, points to `public/Imane-Rissouni-CV.pdf`.
 
 ## Environment
 
-`SITE_URL` is the public origin used by Open Graph metadata, the sitemap, and robots.txt. It defaults to `http://localhost:3000` for local runs. For deployment, set it to your public URL (for example, `https://yourname.dev`) before building. See `.env.example`.
+`SITE_URL` is the public origin used by Open Graph metadata, the sitemap, and robots.txt. It defaults to `http://localhost:3000` for local runs. For deployment, set it to your public URL before building. See `.env.example`.
 
 Run `npm run build` and then `npm run start` to serve the production build from `.next/`. The homepage is prerendered and becomes eligible for regeneration after five minutes.
 
