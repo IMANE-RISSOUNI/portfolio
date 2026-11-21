@@ -1,0 +1,106 @@
+{
+  "profile": {
+    "name": "Alex Example",
+    "headline": "I build reliable software.",
+    "bio": "I’m a software engineer who builds web applications and the services behind them. I care about clear interfaces, predictable systems, and making software easier for the next person to maintain.",
+    "location": "Portland, Oregon",
+    "email": "alex@example.com",
+    "availability": { "available": true, "text": "Open to new opportunities" },
+    "links": {
+      "github": "https://example.com/github",
+      "linkedin": "https://example.com/linkedin",
+      "cv": "/alex-example-cv.txt"
+    }
+  },
+  "projects": [
+    {
+      "title": "Parcel Ledger",
+      "description": "A shipment dashboard that turns carrier webhooks into a searchable timeline for support teams.",
+      "stack": ["TypeScript", "Next.js", "PostgreSQL"],
+      "repoUrl": "https://example.com/parcel-ledger",
+      "demoUrl": "https://example.com/parcel-ledger-demo",
+      "year": 2025,
+      "sortOrder": 1,
+      "visible": true
+    },
+    {
+      "title": "Query Notebook",
+      "description": "A workspace for saving and comparing SQL query plans while tuning slow reports.",
+      "stack": ["Python", "SQLite", "React"],
+      "repoUrl": "https://example.com/query-notebook",
+      "year": 2024,
+      "sortOrder": 2,
+      "visible": true
+    },
+    {
+      "title": "Release Relay",
+      "description": "A command-line tool that collects release notes from merged changes and renders a changelog.",
+      "stack": ["Go", "GitHub Actions"],
+      "repoUrl": "https://example.com/release-relay",
+      "year": 2023,
+      "sortOrder": 3,
+      "visible": true
+    }
+  ],
+  "experiences": [
+    {
+      "role": "Software Engineer",
+      "organization": "Example Harbor Labs",
+      "type": "work",
+      "startYear": 2023,
+      "endYear": null,
+      "description": "Builds internal logistics tools and maintains the event processing behind shipment notifications.",
+      "location": "Remote",
+      "sortOrder": 1,
+      "visible": true
+    },
+    {
+      "role": "Junior Software Engineer",
+      "organization": "Example Grove Software",
+      "type": "work",
+      "startYear": 2021,
+      "endYear": 2023,
+      "description": "Developed reporting features and moved recurring data imports into monitored background jobs.",
+      "location": "Portland, Oregon",
+      "sortOrder": 2,
+      "visible": true
+    },
+    {
+      "role": "B.S. in Computer Science",
+      "organization": "Example State University",
+      "type": "education",
+      "startYear": 2017,
+      "endYear": 2021,
+      "description": "Studied distributed systems and built a scheduling app for a capstone project.",
+      "location": "Salem, Oregon",
+      "sortOrder": 3,
+      "visible": true
+    }
+  ],
+  "skills": [
+    {
+      "category": "Languages",
+      "items": ["TypeScript", "Python", "Go", "SQL"],
+      "sortOrder": 1,
+      "visible": true
+    },
+    {
+      "category": "Frontend",
+      "items": ["React", "Next.js", "Tailwind CSS"],
+      "sortOrder": 2,
+      "visible": true
+    },
+    {
+      "category": "Backend & data",
+      "items": ["Node.js", "PostgreSQL", "Redis"],
+      "sortOrder": 3,
+      "visible": true
+    },
+    {
+      "category": "Tooling",
+      "items": ["Git", "Docker", "GitHub Actions", "Playwright"],
+      "sortOrder": 4,
+      "visible": true
+    }
+  ]
+}
