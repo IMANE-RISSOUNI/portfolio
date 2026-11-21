@@ -7,15 +7,23 @@ export function Projects({ projects }: { projects: Project[] }) {
       <ul>
         {projects.map(
           ({ title, description, stack, repoUrl, demoUrl, year }) => (
-            <li className="ruled-row" key={title + repoUrl}>
-              <time className="row-meta" dateTime={String(year)}>
-                {year}
-              </time>
+            <li className="ruled-row" key={title + (repoUrl ?? "")}>
+              {year === undefined ? (
+                <span className="hidden sm:block" aria-hidden="true" />
+              ) : (
+                <time className="row-meta" dateTime={String(year)}>
+                  {year}
+                </time>
+              )}
               <div>
                 <h3>
-                  <a className="accent-link" href={repoUrl}>
-                    {title}
-                  </a>
+                  {repoUrl ? (
+                    <a className="accent-link" href={repoUrl}>
+                      {title}
+                    </a>
+                  ) : (
+                    title
+                  )}
                 </h3>
                 <p>{description}</p>
                 {demoUrl && (

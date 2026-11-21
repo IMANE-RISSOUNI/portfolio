@@ -23,7 +23,9 @@ export function Experience({ experiences }: { experiences: ExperienceItem[] }) {
               key={`${organization}-${role}-${startYear}`}
             >
               <span className="row-meta">
-                {startYear} – {endYear ?? "Present"}
+                {startYear === endYear
+                  ? startYear
+                  : `${startYear} – ${endYear ?? "Present"}`}
               </span>
               <div>
                 <h3>{role}</h3>

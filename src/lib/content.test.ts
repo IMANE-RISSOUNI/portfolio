@@ -12,11 +12,11 @@ const fixture = {
     headline: "Test headline",
     bio: "Test bio",
     location: "Test City",
-    email: "test@example.com",
+    email: "person@portfolio.test",
     availability: { available: false, text: "Unavailable" },
     links: {
-      github: "https://example.com/github",
-      linkedin: "https://example.com/linkedin",
+      github: "https://portfolio.test/github",
+      linkedin: "https://portfolio.test/linkedin",
       cv: "/test-cv.pdf",
     },
   },
@@ -25,7 +25,7 @@ const fixture = {
       title: "Second",
       description: "Test project",
       stack: ["TypeScript"],
-      repoUrl: "https://example.com/second",
+      repoUrl: "https://portfolio.test/second",
       year: 2025,
       sortOrder: 2,
       visible: true,
@@ -34,8 +34,6 @@ const fixture = {
       title: "Hidden",
       description: "Test project",
       stack: ["TypeScript"],
-      repoUrl: "https://example.com/hidden",
-      year: 2025,
       sortOrder: 0,
       visible: false,
     },
@@ -43,8 +41,6 @@ const fixture = {
       title: "First",
       description: "Test project",
       stack: ["TypeScript"],
-      repoUrl: "https://example.com/first",
-      year: 2025,
       sortOrder: 1,
       visible: true,
     },
@@ -67,6 +63,11 @@ describe("getContent", () => {
   it("sorts visible items by sortOrder", async () => {
     const { projects } = await getContent();
     expect(projects.map(({ title }) => title)).toEqual(["First", "Second"]);
+  });
+
+  it("accepts projects without a year or links", async () => {
+    const { projects } = await getContent();
+    expect(projects[0]).toEqual(fixture.projects[2]);
   });
 
   it("reports the file and field path for invalid data", async () => {

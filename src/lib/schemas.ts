@@ -23,9 +23,9 @@ export const projectSchema = z.object({
   title: text,
   description: text,
   stack: z.array(text).min(1),
-  repoUrl: webUrl,
+  repoUrl: webUrl.optional(),
   demoUrl: webUrl.optional(),
-  year,
+  year: year.optional(),
   ...ordered,
 });
 
