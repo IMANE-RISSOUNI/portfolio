@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { cache } from "react";
 import { contentSchema, type Content } from "./schemas";
 
-const contentFile = "content/content.json";
+const contentFile = join(process.cwd(), "content", "content.json");
 
 function visibleInOrder<T extends { visible: boolean; sortOrder: number }>(
   items: T[],
@@ -14,7 +14,7 @@ function visibleInOrder<T extends { visible: boolean; sortOrder: number }>(
 }
 
 export const getContent = cache(async (): Promise<Content> => {
-  const source = await readFile(join(process.cwd(), contentFile), "utf8");
+  const source = await readFile(contentFile, "utf8");
   let data: unknown;
 
   try {

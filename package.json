@@ -7,7 +7,9 @@
     "build": "next build",
     "lint": "eslint",
     "format": "prettier --write .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "start": "next start",
+    "test": "vitest run"
   },
   "dependencies": {
     "next": "16.4.6",
@@ -24,6 +26,7 @@
     "eslint-config-next": "16.4.6",
     "prettier": "^3.10.1",
     "tailwindcss": "4.3.3",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.12"
   }
 }
