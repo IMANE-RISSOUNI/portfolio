@@ -5,6 +5,7 @@ import { getContent } from "./content";
 import type { Content } from "./schemas";
 
 vi.mock("node:fs/promises", () => ({ readFile: vi.fn() }));
+vi.mock("./supabase", () => ({ createSupabaseClient: () => null }));
 
 const fixture = {
   profile: {

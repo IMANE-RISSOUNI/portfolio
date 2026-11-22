@@ -9,8 +9,8 @@ import { Skills } from "@/components/skills";
 import { getContent } from "@/lib/content";
 import { siteUrl } from "./site-url";
 
-// Revalidate future Supabase content every five minutes and keep serving the
-// cached page if the database is unavailable during regeneration.
+// Refresh Supabase content at most every five minutes. If a refresh cannot
+// read valid database content, getContent() serves the validated JSON fallback.
 export const revalidate = 300;
 
 export async function generateMetadata(): Promise<Metadata> {

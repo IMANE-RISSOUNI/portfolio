@@ -1,9 +1,9 @@
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
 import { cache } from "react";
-import { contentSchema, type Content } from "./schemas";
-
-const contentFile = join(process.cwd(), "content", "content.json");
+import { readContentFile } from "./content-file";
+import type { Content } from "./schemas";
+import { createSupabaseClient } from "./supabase";
+import { ContentSourceError, readSupabaseContent } from "./supabase-content";
+import { hasPortfolioEntries } from "./supabase-mapping";
 
 function visibleInOrder<T extends { visible: boolean; sortOrder: number }>(
   items: T[],
@@ -13,31 +13,49 @@ function visibleInOrder<T extends { visible: boolean; sortOrder: number }>(
     .sort((a, b) => a.sortOrder - b.sortOrder);
 }
 
-export const getContent = cache(async (): Promise<Content> => {
-  const source = await readFile(contentFile, "utf8");
-  let data: unknown;
-
-  try {
-    data = JSON.parse(source.replace(/^\uFEFF/, ""));
-  } catch (cause) {
-    throw new Error(`Invalid JSON in ${contentFile}`, { cause });
-  }
-
-  const result = contentSchema.safeParse(data);
-  if (!result.success) {
-    const issues = result.error.issues.map(
-      ({ path, message }) => `${path.join(".") || "(root)"}: ${message}`,
-    );
-    throw new Error(
-      `Invalid portfolio content in ${contentFile}:\n${issues.join("\n")}`,
-    );
-  }
-
-  const { profile, projects, experiences, skills } = result.data;
+function prepareContent({
+  profile,
+  projects,
+  experiences,
+  skills,
+}: Content): Content {
   return {
     profile,
     projects: visibleInOrder(projects),
     experiences: visibleInOrder(experiences),
     skills: visibleInOrder(skills),
   };
-});
+}
+
+export function createContentLoader(
+  createClient = createSupabaseClient,
+  readFallback = readContentFile,
+): () => Promise<Content> {
+  return async () => {
+    try {
+      const client = createClient();
+      if (!client)
+        throw new ContentSourceError(
+          "SUPABASE_URL or SUPABASE_ANON_KEY is missing",
+        );
+
+      const content = prepareContent(await readSupabaseContent(client));
+      if (!hasPortfolioEntries(content)) {
+        throw new ContentSourceError(
+          "Supabase has no visible projects or experiences",
+        );
+      }
+      return content;
+    } catch (error) {
+      const reason =
+        error instanceof ContentSourceError
+          ? error.message
+          : "Unexpected Supabase client failure";
+      console.warn(`[content] ${reason}. Using content/content.json.`);
+    }
+
+    return prepareContent(await readFallback());
+  };
+}
+
+export const getContent = cache(createContentLoader());
