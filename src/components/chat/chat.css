@@ -1,0 +1,117 @@
+.chat-launcher,
+.chat-panel {
+  position: fixed;
+  inset: auto 1rem 1rem auto;
+  z-index: 10;
+  font-family: var(--font-heading), sans-serif;
+}
+
+.chat-panel {
+  margin: 0;
+  width: min(26rem, calc(100% - 2rem));
+  max-width: none;
+  max-height: min(38rem, calc(100dvh - 2rem));
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 1rem;
+  overflow: auto;
+}
+
+.chat-panel[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-panel::backdrop {
+  background: rgb(0 0 0 / 22%);
+}
+
+.chat-panel h2 {
+  margin: 0 0 0.4rem;
+  font-size: 1.25rem;
+}
+
+.chat-panel a {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.chat-header,
+.chat-form {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.75rem;
+}
+
+.chat-header {
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.875rem;
+}
+
+.chat-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 5rem;
+  padding: 0.75rem;
+  overflow-y: auto;
+  overflow-wrap: anywhere;
+}
+
+.chat-message {
+  align-self: flex-start;
+  max-width: 95%;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 0.375rem;
+  white-space: pre-wrap;
+}
+
+.chat-message-user {
+  align-self: flex-end;
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.chat-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0 0.75rem 0.75rem;
+}
+
+.chat-suggestions .button {
+  text-align: left;
+  font-size: 0.875rem;
+}
+
+.chat-form {
+  border-top: 1px solid var(--line);
+}
+
+.chat-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.55rem;
+  border: 1px solid var(--line);
+  border-radius: 0.375rem;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.chat-form button:disabled {
+  opacity: 0.55;
+}
+
+@media (max-width: 639px) {
+  .chat-panel {
+    inset: auto 0 0;
+    width: 100%;
+    max-height: calc(100dvh - 1rem);
+    border-radius: 0.5rem 0.5rem 0 0;
+  }
+}

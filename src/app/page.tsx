@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Chat } from "@/components/chat/chat";
 import { Contact } from "@/components/contact";
 import { Experience } from "@/components/experience";
 import { Footer } from "@/components/footer";
@@ -50,6 +51,7 @@ export default async function Home() {
         <Contact email={profile.email} links={profile.links} />
       </main>
       <Footer name={profile.name} location={profile.location} />
+      <Chat name={profile.name} email={profile.email} />
     </>
   );
 }

@@ -59,9 +59,28 @@ Copy `.env.example` to `.env.local` for local use.
 
 **Keep-alive.** Set `SUPABASE_URL` and `SUPABASE_ANON_KEY` in GitHub Actions repository secrets. The workflow queries the profile on a three-day day-of-month cron schedule and supports manual dispatch.
 
+## Phase 3: AI assistant
+
+The portfolio loads the dialog when a visitor opens it. The browser sends up to ten recent messages to `POST /api/chat`. The server validates the request, applies rate limits, reads public portfolio data through `getContent()`, and sends that data and the conversation to the configured provider. The route streams plain text back. The browser keeps the conversation in React state, and refreshing the page clears it.
+
+Set these server-side variables in `.env.local` or in the Vercel project. To switch providers, change the three `LLM_*` values together.
+
+| Variable                   | Purpose                                                               |
+| -------------------------- | --------------------------------------------------------------------- |
+| `LLM_BASE_URL`             | OpenAI-compatible API prefix. The server appends `/chat/completions`. |
+| `LLM_API_KEY`              | Provider key.                                                         |
+| `LLM_MODEL`                | Provider model identifier.                                            |
+| `UPSTASH_REDIS_REST_URL`   | Upstash Redis REST URL for shared rate counters.                      |
+| `UPSTASH_REDIS_REST_TOKEN` | Upstash Redis REST token.                                             |
+| `SITE_URL`                 | Public origin allowed to send browser chat requests in production.    |
+
+Redis applies fixed windows of 8 requests per minute and 40 per day per IP, plus 300 per day across the site. When Redis is unavailable, each server instance enforces 5 per minute and 40 per day per IP, plus 300 per day for that instance. The provider request has a 20-second deadline. The portfolio works independently of the chat.
+
+The system prompt limits answers to the portfolio, asks the assistant to identify itself as AI, and instructs it to decline unrelated or rule-changing requests. Replies use English or French. Other languages receive an English reply with a note. Public profile and portfolio fields supply the context. Phone numbers, secrets, and hidden portfolio entries are excluded. Visitors are told that their messages go to a third-party AI provider and that replies can contain mistakes.
+
 ## Roadmap
 
 1. Phase 1 — Static portfolio (done)
 2. Phase 2 — Supabase content (done)
-3. Phase 3 — AI chatbot
+3. Phase 3 — AI chatbot (done)
 4. Phase 4 — Polish
