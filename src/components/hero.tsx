@@ -1,28 +1,35 @@
+import type { Dictionary } from "@/i18n/dictionaries/en";
 import type { Profile } from "@/lib/schemas";
+import { HeroIllustration } from "./hero-illustration";
 
 export function Hero({
-  headline,
-  bio,
-  availability,
-}: Pick<Profile, "headline" | "bio" | "availability">) {
+  profile,
+  text,
+}: {
+  profile: Profile;
+  text: Dictionary["hero"];
+}) {
   return (
     <section className="hero" aria-labelledby="hero-title">
-      <h1 id="hero-title">{headline}</h1>
-      <p className="hero-bio">{bio}</p>
-      {availability.available && (
-        <div className="availability">
-          <span className="status-dot" aria-hidden="true" />
-          {availability.text}
+      <div>
+        {profile.availability.available && (
+          <div className="availability">
+            <span className="status-dot" aria-hidden="true" />
+            {text.availability}
+          </div>
+        )}
+        <h1 id="hero-title">{text.headline}</h1>
+        <p className="hero-bio">{text.introduction}</p>
+        <div className="actions">
+          <a className="button primary" href="#projects">
+            {text.work}
+          </a>
+          <a className="button" href={profile.links.cv} download>
+            {text.resume}
+          </a>
         </div>
-      )}
-      <div className="actions">
-        <a className="button primary" href="#projects">
-          See my work
-        </a>
-        <a className="button" href="#contact">
-          Get in touch
-        </a>
       </div>
+      <HeroIllustration />
     </section>
   );
 }

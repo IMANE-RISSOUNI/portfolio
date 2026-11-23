@@ -39,7 +39,7 @@ it("revalidates the homepage with the configured secret and ignores the body", a
   const webhook = request("configured-secret");
   const response = POST(webhook);
   expect(response.status).toBe(200);
-  expect(revalidatePath).toHaveBeenCalledExactlyOnceWith("/");
+  expect(vi.mocked(revalidatePath).mock.calls).toEqual([["/en"], ["/fr"]]);
   expect(webhook.bodyUsed).toBe(false);
   const result: { revalidated: boolean; at: string } = await response.json();
   expect(result).toEqual({

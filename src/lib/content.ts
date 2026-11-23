@@ -1,4 +1,5 @@
 import { cache } from "react";
+import type { Locale } from "@/i18n/locales";
 import { readContentFile } from "./content-file";
 import type { Content } from "./schemas";
 import { createSupabaseClient } from "./supabase";
@@ -58,4 +59,10 @@ export function createContentLoader(
   };
 }
 
-export const getContent = cache(createContentLoader());
+const loadContent = createContentLoader();
+
+export const getContent = cache((locale?: Locale) => {
+  // The source is shared until portfolio content translations are added.
+  void locale;
+  return loadContent();
+});

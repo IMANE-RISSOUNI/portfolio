@@ -1,5 +1,6 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { expect, it } from "vitest";
+import { en } from "../i18n/dictionaries/en";
 import { Experience } from "./experience";
 import { Projects } from "./projects";
 
@@ -11,6 +12,7 @@ it("omits the project title link and date when they are absent", () => {
   };
   const html = renderToStaticMarkup(
     <Projects
+      text={en}
       projects={[
         { ...project, title: "Unlinked project", sortOrder: 1 },
         {
@@ -42,6 +44,7 @@ it("renders single-year, ongoing, and completed experience dates", () => {
   };
   const html = renderToStaticMarkup(
     <Experience
+      text={en}
       experiences={[
         {
           ...experience,

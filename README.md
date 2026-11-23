@@ -15,7 +15,14 @@ Open http://localhost:3000. Without Supabase credentials, the site reads `conten
 
 `SITE_URL` is the public origin used by Open Graph metadata, the sitemap, and robots.txt. It defaults to `http://localhost:3000` for local runs. For deployment, set it to your public URL before building. See `.env.example`.
 
-Run `npm run build` and then `npm run start` to serve the production build from `.next/`. The homepage is prerendered and becomes eligible for regeneration after five minutes.
+Run `npm run build` and then `npm run start` to serve the production build from `.next/`. Both locale pages are prerendered and become eligible for regeneration after five minutes.
+
+## Structure
+
+- `src/app/[locale]/` renders the English and French interface at `/en` and `/fr`. `src/proxy.ts` redirects unprefixed requests using the `NEXT_LOCALE` cookie, then `Accept-Language`, then English. API routes and public assets keep their original URLs.
+- `src/i18n/dictionaries/` holds the interface copy. Add the string to `en.ts`, add the corresponding French key to `fr.ts`, then use the active dictionary value in the component. Portfolio data is still shared between locales.
+- `src/lib/theme.ts`, `src/components/navbar/theme-toggle.tsx`, and `src/app/globals.css` handle first paint, the Light → Dark → System toggle, and theme tokens. The saved preference uses the `theme` local storage key.
+- Replace the placeholder IR monogram in `src/components/logo.tsx` and the original illustration in `src/components/hero-illustration.tsx`. The editable About introduction lives in the two dictionaries.
 
 ## Scripts
 
@@ -55,7 +62,7 @@ Copy `.env.example` to `.env.local` for local use.
 
 **Export.** Run `npm run db:export` with the same local credentials. The script includes hidden rows and replaces `content/content.json` only after validation. Review and commit the updated JSON to refresh the deployed fallback.
 
-**Database Webhooks.** Create a Supabase Database Webhook for each of `profile`, `projects`, `experiences`, and `skills`. Select INSERT, UPDATE, and DELETE, use POST to `https://YOUR_SITE/api/revalidate`, and set the `x-revalidate-secret` header to the deployment's `REVALIDATE_SECRET`. Accepted requests mark the homepage for regeneration on its next visit. [Supabase Database Webhooks](https://supabase.com/docs/guides/database/webhooks)
+**Database Webhooks.** Create a Supabase Database Webhook for each of `profile`, `projects`, `experiences`, and `skills`. Select INSERT, UPDATE, and DELETE, use POST to `https://YOUR_SITE/api/revalidate`, and set the `x-revalidate-secret` header to the deployment's `REVALIDATE_SECRET`. Accepted requests mark both locale pages for regeneration on their next visit. [Supabase Database Webhooks](https://supabase.com/docs/guides/database/webhooks)
 
 **Keep-alive.** Set `SUPABASE_URL` and `SUPABASE_ANON_KEY` in GitHub Actions repository secrets. The workflow queries the profile on a three-day day-of-month cron schedule and supports manual dispatch.
 
@@ -87,4 +94,4 @@ The system prompt limits answers to the portfolio, asks the assistant to identif
 1. Phase 1 — Static portfolio (done)
 2. Phase 2 — Supabase content (done)
 3. Phase 3 — AI chatbot (done)
-4. Phase 4 — Polish
+4. Phase 4 — In progress. UI shell and interface localisation complete. Portfolio content translations next.

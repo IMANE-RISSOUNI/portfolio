@@ -1,9 +1,16 @@
 import type { Project } from "@/lib/schemas";
+import type { Dictionary } from "@/i18n/dictionaries/en";
 
-export function Projects({ projects }: { projects: Project[] }) {
+export function Projects({
+  projects,
+  text,
+}: {
+  projects: Project[];
+  text: Dictionary;
+}) {
   return (
     <section id="projects" className="section" aria-labelledby="projects-title">
-      <h2 id="projects-title">Projects</h2>
+      <h2 id="projects-title">{text.nav.projects}</h2>
       <ul>
         {projects.map(
           ({ title, description, stack, repoUrl, demoUrl, year }) => (
@@ -25,14 +32,14 @@ export function Projects({ projects }: { projects: Project[] }) {
                     title
                   )}
                 </h3>
-                <p>{description}</p>
+                <p lang="en">{description}</p>
                 {demoUrl && (
                   <a
                     className="demo-link"
                     href={demoUrl}
-                    aria-label={`Live demo for ${title}`}
+                    aria-label={`${text.demoFor} ${title}`}
                   >
-                    Live demo
+                    {text.demo}
                   </a>
                 )}
               </div>
