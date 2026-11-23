@@ -1,9 +1,9 @@
 import { z } from "zod";
 import { getContent } from "../../../lib/content";
 import { getLlmConfig, LlmError, streamCompletion } from "../../../lib/llm";
+import { originAllowed } from "../../../lib/origin";
 import { buildSystemPrompt } from "../../../lib/prompt";
 import { checkChatLimit, requestIp } from "../../../lib/rate-limit";
-import { siteUrl } from "../../site-url";
 
 export const runtime = "nodejs";
 
@@ -22,23 +22,6 @@ const chatBody = z.strictObject({
 });
 
 class BodyTooLarge extends Error {}
-
-function originAllowed(origin: string | null): boolean {
-  if (origin === null || (process.env.SITE_URL && origin === siteUrl))
-    return true;
-  if (process.env.NODE_ENV !== "development") return false;
-
-  try {
-    const url = new URL(origin);
-    return (
-      url.origin === origin &&
-      ["http:", "https:"].includes(url.protocol) &&
-      ["localhost", "127.0.0.1", "[::1]"].includes(url.hostname)
-    );
-  } catch {
-    return false;
-  }
-}
 
 async function readBody(request: Request): Promise<unknown> {
   if (Number(request.headers.get("content-length")) > maxBytes)
@@ -71,7 +54,7 @@ function unavailable(reason: string) {
 }
 
 export async function POST(request: Request): Promise<Response> {
-  if (!originAllowed(request.headers.get("origin"))) {
+  if (!originAllowed(request.headers)) {
     return Response.json({ error: "Forbidden" }, { status: 403, headers });
   }
 

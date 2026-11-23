@@ -11,20 +11,26 @@ vi.mock("../../../lib/rate-limit", () => ({
   checkChatLimit: vi.fn(),
   requestIp: () => "192.0.2.1",
 }));
-vi.mock("../../site-url", () => ({ siteUrl: "https://portfolio.test" }));
 
 const user = { role: "user", content: "  What are your skills?  " };
 
-function request(body: unknown, origin = "https://portfolio.test") {
+function request(
+  body: unknown,
+  origin: string | null = "https://portfolio.test",
+  hostHeaders: Record<string, string> = {},
+) {
+  const headers = new Headers(hostHeaders);
+  if (origin !== null) headers.set("origin", origin);
   return new Request("https://portfolio.test/api/chat", {
     method: "POST",
-    headers: { origin },
+    headers,
     body: JSON.stringify(body),
   });
 }
 
 beforeEach(() => {
   vi.stubEnv("SITE_URL", "https://portfolio.test");
+  vi.stubEnv("ALLOWED_ORIGINS", undefined);
   vi.stubEnv("LLM_BASE_URL", "https://provider.test/v1");
   vi.stubEnv("LLM_API_KEY", "test-key");
   vi.stubEnv("LLM_MODEL", "test-model");
@@ -53,11 +59,85 @@ it.each([
   expect(checkChatLimit).not.toHaveBeenCalled();
 });
 
-it("rejects cross-origin requests", async () => {
-  expect(
-    (await POST(request({ messages: [user] }, "https://other.test"))).status,
-  ).toBe(403);
-});
+it.each([
+  [
+    "alternate host",
+    "https://alternate.test",
+    { host: "alternate.test", "x-forwarded-host": "proxy.test" },
+  ],
+  [
+    "network host and port",
+    "http://172.18.96.1:3000",
+    { host: "172.18.96.1:3000" },
+  ],
+  [
+    "forwarded host when Host is absent",
+    "https://alternate.test",
+    { "x-forwarded-host": "alternate.test" },
+  ],
+  ["allow-listed origin", "https://extra.test", { host: "portfolio.test" }],
+  [
+    "configured site origin",
+    "https://portfolio.test",
+    { host: "alternate.test" },
+  ],
+  ["missing Origin", null, { host: "portfolio.test" }],
+] satisfies [string, string | null, Record<string, string>][])(
+  "allows %s through the origin check",
+  async (_scenario, origin, hostHeaders) => {
+    vi.stubEnv("NODE_ENV", "production");
+    vi.stubEnv("ALLOWED_ORIGINS", " , https://extra.test/ , ");
+    vi.stubEnv("LLM_API_KEY", undefined);
+    const response = await POST(
+      request({ messages: [user] }, origin, hostHeaders),
+    );
+    expect(response.status).toBe(503);
+    expect(checkChatLimit).toHaveBeenCalledOnce();
+  },
+);
+
+it.each([
+  ["unrelated origin", "https://evil.example", { host: "alternate.test" }],
+  [
+    "spoofed forwarded host",
+    "https://evil.example",
+    { host: "alternate.test", "x-forwarded-host": "evil.example" },
+  ],
+  [
+    "wrong port",
+    "https://alternate.test:9040",
+    { host: "alternate.test:9030" },
+  ],
+  ["malformed origin", "not-a-url", { host: "alternate.test" }],
+  [
+    "URL with a path",
+    "https://alternate.test/path",
+    { host: "alternate.test" },
+  ],
+] satisfies [string, string, Record<string, string>][])(
+  "rejects %s before rate limiting",
+  async (_scenario, origin, hostHeaders) => {
+    const response = await POST(
+      request({ messages: [user] }, origin, hostHeaders),
+    );
+    expect(response.status).toBe(403);
+    expect(await response.json()).toEqual({ error: "Forbidden" });
+    expect(checkChatLimit).not.toHaveBeenCalled();
+  },
+);
+
+it.each(["http://localhost:3000", "http://127.0.0.1:3000"])(
+  "allows %s as an unrelated origin only outside production",
+  async (origin) => {
+    vi.stubEnv("LLM_API_KEY", undefined);
+    const incoming = () =>
+      request({ messages: [user] }, origin, { host: "portfolio.test" });
+    vi.stubEnv("NODE_ENV", "development");
+    expect((await POST(incoming())).status).toBe(503);
+    vi.stubEnv("NODE_ENV", "production");
+    expect((await POST(incoming())).status).toBe(403);
+  },
+);
 
 it("bounds the streamed request body even without a Content-Length header", async () => {
   expect(

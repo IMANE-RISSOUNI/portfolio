@@ -72,7 +72,11 @@ Set these server-side variables in `.env.local` or in the Vercel project. To swi
 | `LLM_MODEL`                | Provider model identifier.                                            |
 | `UPSTASH_REDIS_REST_URL`   | Upstash Redis REST URL for shared rate counters.                      |
 | `UPSTASH_REDIS_REST_TOKEN` | Upstash Redis REST token.                                             |
-| `SITE_URL`                 | Public origin allowed to send browser chat requests in production.    |
+| `SITE_URL`                 | Canonical public origin, implicitly allowed by the chat API.          |
+| `ALLOWED_ORIGINS`          | Optional comma-separated full origins allowed by the chat API.        |
+| `DEV_ALLOWED_ORIGINS`      | Optional comma-separated hostnames allowed by the Next.js dev server. |
+
+Same-host chat requests are always allowed. The API compares the origin's host and port with `Host`, using `X-Forwarded-Host` only when `Host` is absent. For cross-host requests, set `ALLOWED_ORIGINS` to full origins such as `https://imane-rissouni.vercel.app,https://imane.dev`. Loopback origins get an automatic exception only outside production. The Next.js development server also allows `172.18.96.1` by default. Add other development hostnames in `DEV_ALLOWED_ORIGINS` without schemes or ports.
 
 Redis applies fixed windows of 8 requests per minute and 40 per day per IP, plus 300 per day across the site. When Redis is unavailable, each server instance enforces 5 per minute and 40 per day per IP, plus 300 per day for that instance. The provider request has a 20-second deadline. The portfolio works independently of the chat.
 
